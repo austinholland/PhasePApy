@@ -24,7 +24,7 @@ class KTPicker():
       nr_len       : noise ratio filter window length before and after potential picks used to calculate standard deviation 
       nr_coeff     : control threshold level to determine if remove the pick by comparing std or rms on both sides of each potential pick  
       pol_len      : window length in samples to calculate the standard deviation of waveform before the picks
-      pol_coeff    : determine if declare first motion as 'Compression' or 'Dilution' by comparing the first local extreme value after pick and standard deviation in previous window
+      pol_coeff    : determine if declare first motion as 'Compression' or 'Dilation' by comparing the first local extreme value after pick and standard deviation in previous window
       uncert_len   : window length in time to calculate the rms of the CF before the picks, we make it as long as t_ma
       uncert_coeff : control the floating level based on the noise of CF
     """
@@ -309,6 +309,7 @@ class KTSummary():
     for i in range(len(picks)):
       plt.plot([(picks[i]-self.tr.stats.starttime), (picks[i]-self.tr.stats.starttime)], [min(self.tr),max(self.tr)], 'k--')
       plt.text((picks[i]-self.tr.stats.starttime),max(self.tr)-0.3*(max(self.tr)-min(self.tr)),'%s' % (self.pol[i]),color='black')
+    plt.xlabel('Time (s)')
     plt.show()
   
   def plot_summary(self):
@@ -340,10 +341,12 @@ class KTSummary():
     plt.ylabel('Characteristic Function')
     ax1.legend(('Normalized CF','Threshold','Picks'),'upper right', shadow=True, fancybox=True)   
     
-    scnl,picks,trigger,snr=self.pick_ident()
-    for i in range(len(picks)):
-      ax.plot([(picks[i]-self.tr.stats.starttime),(picks[i]-self.tr.stats.starttime)],[min(self.tr.data),max(self.tr.data)],'r--')
-      ax.text((picks[i]-self.tr.stats.starttime),0.5,'%s' % (self.pol[i]),color='red')
-     
+#     scnl,picks,trigger,snr=self.pick_ident()
+#     for i in range(len(picks)):
+#       ax.plot([(picks[i]-self.tr.stats.starttime),(picks[i]-self.tr.stats.starttime)],[min(self.tr.data),max(self.tr.data)],'r--')
+#       ax.text((picks[i]-self.tr.stats.starttime),0.5,'%s' % (self.pol[i]),color='red')
+    
+    plt.xlabel('Time (s)') 
     #plt.title('CF')
+    plt.tight_layout()
     plt.show()

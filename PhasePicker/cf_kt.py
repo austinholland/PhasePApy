@@ -24,7 +24,7 @@ class Kurtosis():
     # window nsta points, i.e. the window "sees" every point in a at least
     # once.
     for i in xrange(m):  # window size to smooth over
-        kt[i] = kurtosis(data[i-Nsta:i])
+        kt[i] = abs(kurtosis(data[i-Nsta:i]))
 
     kt[0:Nsta] = 0
     

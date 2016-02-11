@@ -81,7 +81,7 @@ class Ratio():
     if self.statistics_mode=='std':
       FC=np.abs(E-aveE)/(sigmaE)
     # reassign FC values for the very beginning couple samples to avoid unreasonable large FC from poor sigmaE
-    S=0.1;L=int(round(S/dt,0))
+    S=self.t_long;L=int(round(S/dt,0))   # S = 0.1
     for k in range(L):
       FC[:,k]=0
     return FC

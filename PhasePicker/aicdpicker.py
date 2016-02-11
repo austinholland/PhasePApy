@@ -21,7 +21,7 @@ class AICDPicker():
       nr_len       : noise ratio filter window length before and after potential picks used to calculate standard deviation 
       nr_coeff     : control threshold level to determine if remove the pick by comparing std or rms on both sides of each potential pick  
       pol_len      : window length in samples to calculate the standard deviation of waveform before the picks
-      pol_coeff    : determine if declare first motion as 'Compression' or 'Dilution' by comparing the first local extreme value after pick and standard deviation in previous window
+      pol_coeff    : determine if declare first motion as 'Compression' or 'Dilation' by comparing the first local extreme value after pick and standard deviation in previous window
       uncert_len   : window length in time to calculate the rms of the CF before the picks, we make it as long as t_ma
       uncert_coeff : control the floating level based on the noise of CF.
     """
@@ -305,6 +305,7 @@ class AICDSummary():
     for i in range(len(picks)):
       plt.plot([(picks[i]-self.tr.stats.starttime), (picks[i]-self.tr.stats.starttime)], [min(self.tr),max(self.tr)], 'k--')
       plt.text((picks[i]-self.tr.stats.starttime),max(self.tr)-0.3*(max(self.tr)-min(self.tr)),'%s' % (self.pol[i]),color='black')
+    plt.xlabel('Time (s)')
     plt.show()
   
   def plot_summary(self):
@@ -320,7 +321,7 @@ class AICDSummary():
     matplotlib.rcParams["xtick.labelsize"]="large"
     matplotlib.rcParams["ytick.labelsize"]="large"
     
-    fig=plt.figure(figsize=(12,12))
+    fig=plt.figure(figsize=(10,9))
     dt=self.stats.delta
     t = np.arange(0, self.stats.npts/self.stats.sampling_rate, dt)  
     
@@ -339,6 +340,7 @@ class AICDSummary():
     ax2.plot(t,self.summary/np.amax(self.summary),c='k')
     ax2.plot(t,self.thres/np.amax(self.summary),'--',linewidth=2.0,c='k')
     plt.ylabel('Characteristic Function')
+    plt.xlabel('Time (s)')
     
     scnl,picks,trigger,snr=self.pick_ident()
     
@@ -347,7 +349,8 @@ class AICDSummary():
     #  ax2.plot([(picks[i]-self.tr.stats.starttime),(picks[i]-self.tr.stats.starttime)],[0,1],'r--')
     #  ax2.text((picks[i]-self.tr.stats.starttime),0.5,'%s' % (self.pol[i]),color='red')
     ax2.legend(('Normalized CF','Threshold','Picks'),'upper right', shadow=True, fancybox=True)  
-  
+    
+    plt.tight_layout()
     plt.show()
     
     #fig.savefig('AICD.pdf')

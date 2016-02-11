@@ -77,26 +77,28 @@ class Plot():
     x2=np.array(Array)[:,1]
     y1=np.array(Array)[:,2]
     y2=np.array(Array)[:,3]
-    fig=plt.figure(figsize=(20,8))
+    fig=plt.figure(figsize=(15,6))
     #p1=plt.plot(x2,y1,'ro-')
     p1=plt.plot(x2,y1,'o-',c='gray')
-    plt.ylim(0,max(y1)+1)
+    plt.ylim(0,max(y1)+1); plt.xlim(min(x2)-timedelta(seconds=60),max(x2)+timedelta(seconds=60))
     plt.xlabel('Time (s)',fontsize=20)
-#     plt.ylabel('# of unique candidates')
+    plt.ylabel('Count',fontsize=20)
     legend=plt.legend(p1,['count'])
-    plt.title('Excluding event candidates from the same station',fontsize=20)
-    fig=plt.figure(figsize=(20,8))
+    plt.tight_layout()
+    plt.title('Unique Candidates Cluster Analysis',fontsize=20)
+    fig=plt.figure(figsize=(15,6))
     #p2=plt.plot(x2,y2,'bo-')
     p2=plt.plot(x2,y2,'o-',c='gray')
-    plt.ylim(0,max(y2)+1)
+    plt.ylim(0,max(y2)+1); plt.xlim(min(x2)-timedelta(seconds=60),max(x2)+timedelta(seconds=60))
     plt.xlabel('Time (s)',fontsize=20)
     plt.legend(p2,['count'])
-#     plt.ylabel('# of candidates')
-    plt.title('Including event candidates from the same station',fontsize=20)
+    plt.ylabel('Count',fontsize=20)
+    plt.tight_layout()
+    plt.title('Total Candidates Cluster Analysis',fontsize=20)
     plt.show()    
     
   
-  def event_plot(self,assoc_id, West = -104.5, East= -94, South = 33.5, North = 37.5, deltalon = 1.0, deltalat = 1.0):
+  def event_plot(self, assoc_id, West = -104.5, East= -94, South = 33.5, North = 37.5, deltalon = 1.0, deltalat = 1.0):
     """ Plot all the circles, stations, location and residual distribution on one map by calling the event number after the event been associated.
     """
     

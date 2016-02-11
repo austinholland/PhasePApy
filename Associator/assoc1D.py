@@ -18,6 +18,7 @@ class LocalAssociator():
   """
   def __init__(self, db_assoc, db_tt, max_km = 350, aggregation = 1, aggr_norm = 'L2', assoc_ot_uncert = 3, nsta_declare = 3, cutoff_outlier = 30, loc_uncert_thresh = 0.2):
     """
+    Parameters:
     db_assoc: associator database
     db_tt: travel time table database
     max_km: maximum distance of S-P interval in distance
@@ -194,7 +195,7 @@ class LocalAssociator():
               event_id=new_event.id
               
               print 'event_id:', event_id  
-              print 'ot:', origintime, 'ot_uncert:', round(ot_unc,3), 'loc:', LAT,LON, 'loc_uncert', round(RMS,3), 'nsta:', nsta
+              print 'ot:', origintime, 'ot_uncert:', round(ot_unc,3), 'loc:', LAT,LON, 'loc_uncert:', round(RMS,3), 'nsta:', nsta
               
               # Associate candidates, picks with the identified event
               for candi in MATCHES_nol:

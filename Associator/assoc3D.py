@@ -17,6 +17,7 @@ class LocalAssociator():
   """
   def __init__(self, db_assoc, db_tt, max_km = 350, aggregation = 1, aggr_norm = 'L2', assoc_ot_uncert = 3, nsta_declare = 3, nt = 31, np = 41, nr = 5):
     """
+    Parameters:
     db_assoc: associator database
     db_tt: travel time table database
     max_km: maximum distance of S-P interval in distance
@@ -24,7 +25,7 @@ class LocalAssociator():
     aggr_norm: L2: median; L1: mean
     assoc_ot_uncert: origin time uncertainty window
     nsta_declare: minimum station number to declare a earthquake
-
+    nt, np, nr: node geometry
     """
     
     engine_associator = create_engine(db_assoc, echo=False)
@@ -38,7 +39,7 @@ class LocalAssociator():
     
     self.max_km                   =         max_km
     tmp, d_diff                   =         tt_km(self.tt_stations_db_3D,self.max_km) # From max distance set our maximum travel_time
-    self.max_tt                   =         tmp.s_tt
+    self.max_tt                   =         tmp.s
     self.max_s_p                  =         tmp.s_p
     self.min_s_p                  =         self.tt_stations_db_3D.query(TTtable3D.s_p).order_by(TTtable3D.s_p).first()[0]
     self.aggregation              =         aggregation
@@ -189,7 +190,7 @@ class LocalAssociator():
           self.assoc_db.commit()
           event_id=new_event.id
           print 'event_id:',event_id 
-          print 'ot:', origintime, 'ot_uncert:', round(ot_unc,3), 'loc:', lat,lon, 'rms', round(rms,3), 'nsta:', nsta
+          print 'ot:', origintime, 'ot_uncert:', round(ot_unc,3), 'loc:', lat,lon, 'rms:', round(rms,3), 'nsta:', nsta
            
           for tt_tuple in cb[index]:
             match = tt_tuple[4]

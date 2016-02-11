@@ -38,7 +38,7 @@ class FBPicker():
       nr_len       : noise ratio filter window length before and after potential picks used to calculate standard deviation 
       nr_coeff     : control threshold level to determine if remove the pick by comparing std or rms on both sides of each potential pick  
       pol_len      : window length in samples to calculate the standard deviation of waveform before the picks
-      pol_coeff    : determine if declare first motion as 'Compression' or 'Dilution' by comparing the first local extreme value after pick and standard deviation in previous window
+      pol_coeff    : determine if declare first motion as 'Compression' or 'Dilation' by comparing the first local extreme value after pick and standard deviation in previous window
       uncert_len   : window length in time to calculate the rms of the CF before the picks, we make it as long as t_ma
       uncert_coeff : control the floating level based on the noise of CF
     """
@@ -330,6 +330,7 @@ class FBSummary():
     
     # Plot raw data
     ax = plt.subplot(n_bands+1,1,1)
+    ax.axes.get_xaxis().set_visible(False)
     ax.plot(t, self.tr, c='gray')
     plt.ylabel('Raw Data')
     plt.title(title)
@@ -342,9 +343,11 @@ class FBSummary():
         ax.plot(t, BF[i], c='k')
         subtitle=str(st*2**i)+unit
         ax.text(0.5,0.8,subtitle,horizontalalignment='center',transform=ax.transAxes)
+        ax.axes.get_xaxis().set_visible(False)
         plt.ylabel('BF%s'%(i+1))
-    plt.xlabel('Time [s]')
-
+    ax.axes.get_xaxis().set_visible(True)
+    plt.xlabel('Time (s)')
+    #fig.savefig('filtering data.pdf')
     #plt.suptitle(title)
     plt.tight_layout()
     plt.show()  
@@ -373,6 +376,7 @@ class FBSummary():
    
     ax = plt.subplot(n_bands+1,1,1)
     ax.plot(t, self.tr, c='gray')
+    ax.axes.get_xaxis().set_visible(False)
     # plot picks
     #for i in range(len(picks)):
     #  ax.plot([(picks[i]-self.tr.stats.starttime), (picks[i]-self.tr.stats.starttime)], [min(self.tr),max(self.tr)], 'r--')
@@ -388,9 +392,11 @@ class FBSummary():
         ax.plot(t, self.FC[i], c='k')
         subtitle=str(freq*2**i)+unit
         ax.text(0.5,0.8,subtitle,horizontalalignment='center',transform=ax.transAxes)
+        ax.axes.get_xaxis().set_visible(False)
         plt.ylabel('CF%s'%(i+1))
-    plt.xlabel('Time [s]')
-    
+    ax.axes.get_xaxis().set_visible(True)
+    plt.xlabel('Time (s)')
+    #fig.savefig('CFn_FB.pdf')
     #plt.suptitle(title)
     plt.tight_layout()
     plt.show()
@@ -421,15 +427,17 @@ class FBSummary():
     ax1 = plt.subplot(2,1,2)
     ax1.plot(t,self.summary/np.amax(self.summary),c='k')
     ax1.plot(t,self.thres/np.amax(self.summary),'--',linewidth=2.0,c='k')
-    plt.ylabel('Characteristic Function')
     ax1.legend(('Normalized CF','Threshold','Picks'),'upper right', shadow=True, fancybox=True)
+    plt.ylabel('Characteristic Function')
+    plt.xlabel('Time (s)')
+    #plt.xlim([65,69])   # zoom in to see the polarity
     
     # Plot picks
     scnl,picks,trigger,snr=self.pick_ident()
     for i in range(len(picks)):
-      ax.plot([(picks[i]-self.tr.stats.starttime),(picks[i]-self.tr.stats.starttime)],[min(self.tr.data),max(self.tr.data)],'r--')
-      ax.text((picks[i]-self.tr.stats.starttime),0.5,'%s' % (self.pol[i]),color='red')
+      ax.plot([(picks[i]-self.tr.stats.starttime),(picks[i]-self.tr.stats.starttime)],[min(self.tr.data),max(self.tr.data)],'k--')
+      ax.text((picks[i]-self.tr.stats.starttime),1,'%s' % (self.pol[i]),color='black')
       
-
+    plt.tight_layout()
     plt.show()
 
