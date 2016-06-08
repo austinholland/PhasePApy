@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import matplotlib
 import copy
 from obspy.core import *
-from scnl import * 
-from cf_fb import *
+from .scnl import * 
+from .cf_fb import *
 
 
 class FBPicker():

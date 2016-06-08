@@ -1,6 +1,6 @@
 import math
 import numpy as np
-from util import *
+from .util import *
 from obspy.signal import bandpass
 from obspy.signal.invsim import cosTaper
 

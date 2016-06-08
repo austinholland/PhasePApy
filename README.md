@@ -6,8 +6,7 @@
 ## About
 
 The PhasePApy is a Pure Python program package developed by Chen Chen (c.chen@ou.edu; 
-c.chen8684@gmail.com) under the guidance of Austin A. Holland (austin.holland@ou.edu; 
-aaholland@usgs.gov).
+c.chen8684@gmail.com) under the guidance of Austin Holland.
 
 Version 1.0: 2014	--	FBpicker; 1D Associator
 Version 1.1: 2016	--	FBpicker, AICDpicker, KTpicker; 1D and 3D Associator
