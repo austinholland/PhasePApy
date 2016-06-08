@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import matplotlib
 import copy
 from obspy.core import *
-from scnl import *
-from cf_aicd import *
+from .scnl import *
+from .cf_aicd import *
 
 class AICDPicker():
   """

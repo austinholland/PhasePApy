@@ -1,6 +1,6 @@
 import numpy as np
 import math
-from util import *
+from .util import *
 
 class AicDeriv():
   

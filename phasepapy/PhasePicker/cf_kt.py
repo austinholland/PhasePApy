@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.stats import kurtosis
-from util import *
+from .util import *
 
 class Kurtosis():
   
