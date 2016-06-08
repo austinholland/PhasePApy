@@ -1,10 +1,9 @@
 
-========================================================================================
-			PhasePApy Version 1.1
-========================================================================================
+# PhasePApy 
+
 
 			
-			### ABOUT PhasePApy ###
+## ABOUT PhasePApy 
 
 The PhasePApy is a Pure Python program package developed by Chen Chen (c.chen@ou.edu; 
 c.chen8684@gmail.com) under the guidance of Austin A. Holland (austin.holland@ou.edu; 
@@ -29,7 +28,7 @@ If you have certain ideas to improve this package, please let us know.
 If you are going to use this package for any commercial purpose, please let us know.
 
 
-			### COMPONENTS OF PhasePApy ###
+## COMPONENTS OF PhasePApy 
 
 The PhasePApy package composes of two sub-packages: PhasePicker and Associator. These 
 two sub-packages can work jointly or separately, depending on users’ requirements. 
@@ -38,25 +37,26 @@ the Associator includes the 1D and 3D Associator modules. The PhasePicker and As
 designed to identify phase onsets and associate them to best fitting events. P- and S-phases
 can be associate in this version, but the algorithm can be accommodated for any distance.
 
-
-			### EXAMPLES ###
+## EXAMPLES 
 
 In the test directory, there are two examples to show how to tune the parameters and present 
 the performance with all the processing units. The first example is the 6-minute data and the
 second one is a one-day dataset. The README.md file is included in each example. 
 
-
-			### REFERENCES ###
+## REFERENCES 
 
 Chen,C., and A. A. Holland, (201X). PhasePApy: A Robust Pure Python Package for Automatic 
 Identification of Seismic Phases, XXX XXX XXX, XX(XX), XXX-XXX.
 			
 
-			### REQUIRED PYTHON LIBRARIES ###	
+## REQUIRED PYTHON LIBRARIES 
 
-The PhasePApy package relies on open libraries: Obspy, Numpy, and Scipy. if you are going to 
-plot results with plotting scripts in this package, you need matplotlib as well. Otherwise, 
-the users can visualize it based on their own methods.	
+The PhasePApy package relies on open libraries: 
++ Obspy 
++ Numpy
++ Scipy 
++ MatPlotLib (Optional) if you are going to plot results with plotting scripts in this 
+package, you need matplotlib as well. Otherwise, the users can visualize it based on their own methods.	
 
 
 
