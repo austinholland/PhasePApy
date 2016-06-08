@@ -3,7 +3,7 @@
 
 
 			
-## ABOUT PhasePApy 
+## About
 
 The PhasePApy is a Pure Python program package developed by Chen Chen (c.chen@ou.edu; 
 c.chen8684@gmail.com) under the guidance of Austin A. Holland (austin.holland@ou.edu; 
@@ -27,29 +27,32 @@ space for further clean-up and improvement, so please feel free to modify and up
 If you have certain ideas to improve this package, please let us know.
 If you are going to use this package for any commercial purpose, please let us know.
 
+## Reference 
 
-## COMPONENTS OF PhasePApy 
+Chen,C., and A. A. Holland, (201X). PhasePApy: A Robust Pure Python Package for Automatic 
+Identification of Seismic Phases, XXX XXX XXX, XX(XX), XXX-XXX.
+			
+## Components 
 
 The PhasePApy package composes of two sub-packages: PhasePicker and Associator. These 
 two sub-packages can work jointly or separately, depending on users’ requirements. 
-For version 1.1, the PhasePicker contains three pickers: FBpicker, AICDpicker, and KTpicker;
-the Associator includes the 1D and 3D Associator modules. The PhasePicker and Associator is 
-designed to identify phase onsets and associate them to best fitting events. P- and S-phases
-can be associate in this version, but the algorithm can be accommodated for any distance.
 
-## EXAMPLES 
+### PhasePicker
+The PhasePicker contains three pickers: FBpicker, AICDpicker, and KTpicker
+
+### Associator
+The Associator includes the 1D and 3D Associator modules which uses phase arrival look up
+tables to associate earthquakes. The associator was tested for local to regional earthquake
+ P- and S-phases, but the algorithm can be accommodated for any distance and possibly phase.
+
+## Examples 
 
 In the test directory, there are two examples to show how to tune the parameters and present 
 the performance with all the processing units. The first example is the 6-minute data and the
 second one is a one-day dataset. The README.md file is included in each example. 
 
-## REFERENCES 
 
-Chen,C., and A. A. Holland, (201X). PhasePApy: A Robust Pure Python Package for Automatic 
-Identification of Seismic Phases, XXX XXX XXX, XX(XX), XXX-XXX.
-			
-
-## REQUIRED PYTHON LIBRARIES 
+## Required Libraries
 
 The PhasePApy package relies on open libraries: 
 + Obspy 
