@@ -32,7 +32,7 @@ If you are going to use this package for any commercial purpose, please let us k
 			
 
 ## Components 
-
+For more information check out the wiki [https://github.com/austinholland/PhasePApy/wiki#welcome-to-the-phasepapy-wiki]
 The PhasePApy package composes of two sub-packages: PhasePicker and Associator. These 
 two sub-packages can work jointly or separately, depending on users’ requirements. 
 
