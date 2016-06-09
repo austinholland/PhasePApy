@@ -1,6 +1,8 @@
 """ example_fbpicker.py
 Example using the FBpicker to pick one channel of data examples for a 3-component station.
 Data is downloaded from IRIS DMC using obspy check your version of obspy for compatability.
+
+Usage:  python example_fbpicker.py
 """
 import sys
 sys.path.append("../")
