@@ -1,5 +1,6 @@
 """ example_fbpicker.py
-Example using the FBpicker to pick one channel of data
+Example using the FBpicker to pick one channel of data examples for a 3-component station.
+Data is downloaded from IRIS DMC using obspy check your version of obspy for compatability.
 """
 import sys
 sys.path.append("../")
@@ -11,6 +12,7 @@ import obspy.clients.iris as iris
 # Obspy version dependent check the documentation for your version
 wfstart=UTCDateTime(2016,6,9,11,11,28)
 iris_client=iris.Client()
+
 # Example on the vertical component
 st=iris_client.timeseries("OK","CROK","--","HHZ",wfstart,wfstart+10*60) # Get ten minutes of data
 st.merge() # Ensure that traces aren't split
