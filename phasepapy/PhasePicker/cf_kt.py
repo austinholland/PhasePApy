@@ -23,7 +23,8 @@ class Kurtosis():
     # Tricky: Construct a big window of length len(a)-nsta. Now move this
     # window nsta points, i.e. the window "sees" every point in a at least
     # once.
-    for i in xrange(m):  # window size to smooth over
+    # Changed xrange to range as it is compatible in both python 2 & 3
+    for i in range(m):  # window size to smooth over
         kt[i] = abs(kurtosis(data[i-Nsta:i]))
 
     kt[0:Nsta] = 0
