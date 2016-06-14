@@ -15,15 +15,16 @@ import obspy.clients.iris as iris
 wfstart=UTCDateTime(2016,6,9,11,11,28)
 iris_client=iris.Client()
 
-# Example on the vertical component
+# Create a picker object with pick parameters
+picker = fbpicker.FBPicker(t_long = 5, freqmin = 1, mode = 'rms', t_ma = 20, nsigma = 8, \
+  t_up = 0.4, nr_len = 2, nr_coeff = 2, pol_len = 10, pol_coeff = 10, uncert_coeff = 3)
+  
+# Example of picking on the vertical component
 st=iris_client.timeseries("OK","CROK","--","HHZ",wfstart,wfstart+10*60) # Get ten minutes of data
 st.merge() # Ensure that traces aren't split
 tr=st[0]
 tr.detrend('linear') # Perform a linear detrend on the data
 
-# Create a picker object with pick parameters
-picker = fbpicker.FBPicker(t_long = 5, freqmin = 1, mode = 'rms', t_ma = 20, nsigma = 8, \
-  t_up = 0.4, nr_len = 2, nr_coeff = 2, pol_len = 10, pol_coeff = 10, uncert_coeff = 3)
 scnl, picks, polarity, snr, uncert = picker.picks(tr) 
 print('scnl:', scnl)
 print('picks:', picks)
@@ -44,9 +45,7 @@ st.merge() # Ensure that traces aren't split
 tr=st[0]
 tr.detrend('linear') # Perform a linear detrend on the data
 
-# Create a picker object with pick parameters
-picker = fbpicker.FBPicker(t_long = 5, freqmin = 1, mode = 'rms', t_ma = 20, nsigma = 8, \
-  t_up = 0.4, nr_len = 2, nr_coeff = 2, pol_len = 10, pol_coeff = 10, uncert_coeff = 3)
+
 scnl, picks, polarity, snr, uncert = picker.picks(tr) 
 print('scnl:', scnl)
 print('picks:', picks)
@@ -65,9 +64,7 @@ st.merge() # Ensure that traces aren't split
 tr=st[0]
 tr.detrend('linear') # Perform a linear detrend on the data
 
-# Create a picker object with pick parameters
-picker = fbpicker.FBPicker(t_long = 5, freqmin = 1, mode = 'rms', t_ma = 20, nsigma = 8, \
-  t_up = 0.4, nr_len = 2, nr_coeff = 2, pol_len = 10, pol_coeff = 10, uncert_coeff = 3)
+
 scnl, picks, polarity, snr, uncert = picker.picks(tr) 
 print('scnl:', scnl)
 print('picks:', picks)
