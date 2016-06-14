@@ -52,6 +52,11 @@ The software was developed at the Oklahoma Geological Survey.
 There are examples in the test directory if one has the required libraries the examples
 should run directly out of a git clone of PhasePApy.  
 
+Because the associators require travel-time tables, we have included a data set and travel-
+time tables in the git repository.  This is not ideal, but because PhasePApy does not 
+include a travel-time calculator for velocity models this approach seemed like the best. 
+For this reason the repository is larger than it needs to be.
+
 
 
 ## Required Libraries
