@@ -1,4 +1,5 @@
 from obspy.core import *
+from obspy.geodetics import gps2dist_azimuth
 from mpl_toolkits.basemap import Basemap
 from matplotlib.collections import LineCollection
 from matplotlib.colors import colorConverter
@@ -98,10 +99,11 @@ class Plot():
     plt.show()
  
   
-  def event_plot(self, assoc_id, West = -104.5, East= -94, South = 33.5, North = 37.5, deltalon = 1.0, deltalat = 1.0):
+  def event_plot(self, assoc_id, west = -104.5, east= -94, south = 33.5, north = 37.5, deltalon = 1.0, deltalat = 1.0):
     """ Plot all the circles, stations, location and residual distribution on one map by calling the event number after the event been associated.
     """
-    
+    from itertools import cycle
+    plot_colors=cycle(['r','g','b','c','m','y'])
     fig=plt.figure(figsize=(15,8))
     ax = fig.add_subplot(111)
     #=============================================================
@@ -115,8 +117,9 @@ class Plot():
     #
     #=============================================================
     ### Basemap Module
-    m = Basemap(projection='merc',llcrnrlat=South,urcrnrlat=North,llcrnrlon=West,urcrnrlon=East,lat_ts=0,resolution='c')
+    m = Basemap(projection='merc',llcrnrlat=south,urcrnrlat=north,llcrnrlon=west,urcrnrlon=east,lat_ts=0,resolution='c')
     m.drawcountries()
+    m.drawstates()
     m.fillcontinents(color='white',lake_color='aqua',zorder=1)
     #=============================================================
     # draw parallels, meridians and structures.
@@ -124,25 +127,21 @@ class Plot():
     #m.drawparallels(np.arange(South,North,deltalat),labels=[1,0,0,0],color='gray',dashes=[1,1e-5],labelstyle='+/-',linewidth=0.1)
     #m.drawmeridians(np.arange(West,East,deltalon),labels=[0,0,0,1],color='gray',dashes=[1,1e-5],labelstyle='+/-',linewidth=0.1)
     m.drawmapboundary(fill_color='blue') 
-    m.readshapefile('/Users/chenchen/Desktop/Research/gis/Geography/county','ok_counties',drawbounds=True,linewidth=1.0,color='black',zorder=2)
-
-    m.readshapefile('/Users/chenchen/Desktop/Research/gis/Geology/OF5-95/Faults/surface','surface',linewidth=1.25,color='gray',zorder=3)
-    m.readshapefile('/Users/chenchen/Desktop/Research/gis/Geology/OF5-95/Faults/surface_ot','surface_ot',linewidth=1.25,color='gray',zorder=3)
-    m.readshapefile('/Users/chenchen/Desktop/Research/gis/Geology/OF5-95/Faults/subsurface_ot','subsurface_ot',linewidth=1.25,color='gray',zorder=3)
-    m.readshapefile('/Users/chenchen/Desktop/Research/gis/Geology/OF5-95/Faults/subsurface','subsurface',linewidth=1.25,color='gray',zorder=3)
    
     #=============================================================
     # plot matches and mismatches circles    
     matches=self.assoc_db.query(Candidate).filter(Candidate.assoc_id==assoc_id).filter(Candidate.locate_flag==True).all()
     mismatches=self.assoc_db.query(Candidate).filter(Candidate.assoc_id==assoc_id).filter(Candidate.locate_flag==False).all()
     lon_eve,lat_eve=self.assoc_db.query(Associated.longitude,Associated.latitude).filter(Associated.id==assoc_id).first()
-    radius_rainbow=[];s_p_rainbow=[]
-    rainbow=[];sta_rainbow=[]   
+    radius_rainbow=[]
+    s_p_rainbow=[]
+    rainbow=[]
+    sta_rainbow=[]   
     for match in matches:
       lon,lat=self.tt_stations_db_1D.query(Station1D.longitude,Station1D.latitude).filter(Station1D.sta==match.sta).first()
       s_p_rainbow.append((match.ts-match.tp).total_seconds())
       radius_rainbow.append(match.d_km)
-      Color=ax._get_lines.color_cycle.next()
+      Color=plot_colors.__next__()
       rainbow.append(Color)
       sta_rainbow.append(match.sta)
       LocPair,=equi(m, lon, lat, match.d_km, lw=2., color=Color)
@@ -152,7 +151,7 @@ class Plot():
       lon,lat=self.tt_stations_db_1D.query(Station1D.longitude,Station1D.latitude).filter(Station1D.sta==mismatch.sta).first()
       s_p_rainbow.append((mismatch.ts-mismatch.tp).total_seconds())
       radius_rainbow.append(mismatch.d_km)
-      Color=ax._get_lines.color_cycle.next()
+      Color=plot_colors.__next__()
       rainbow.append(Color)
       sta_rainbow.append(mismatch.sta)
       UnlocPair,=equi(m, lon, lat, mismatch.d_km, ls='--', lw=1., color=Color)
@@ -229,7 +228,7 @@ class Plot():
       legend_list["Single Phase"]=UnlocPhase
     
     # add on the legend
-    legend = plt.legend(legend_list.values(),legend_list.keys(),'upper left',frameon=0) 
+    #legend = plt.legend(legend_list.values(),legend_list.keys(),'upper left') 
   
     
     #=============================================================
@@ -362,7 +361,7 @@ class Plot():
       t=np.arange(0,round(tr.stats.npts/tr.stats.sampling_rate/tr.stats.delta))*tr.stats.delta # due to the float point arithmetic issue, can not use "t=np.arange(0,tr.stats.npts/tr.stats.sampling_rate,tr.stats.delta)"
       segs.append(np.hstack((data[:,np.newaxis],t[:,np.newaxis])))
       lon,lat = self.tt_stations_db_1D.query(Station1D.longitude,Station1D.latitude).filter(Station1D.sta==tr.stats.station).first()
-      distance = int(gps2DistAzimuth(lat,lon,eq_lat,eq_lon)[0]/1000.)  #gps2DistAzimuth return in meters, convert to km by /1000
+      distance = int(gps2dist_azimuth(lat,lon,eq_lat,eq_lon)[0]/1000.)  #gps2DistAzimuth return in meters, convert to km by /1000
       #distance=self.assoc_db.query(Candidate.d_km).filter(Candidate.assoc_id==assoc_id).filter(Candidate.sta==tr.stats.station).first()[0]#;print distance,tr.stats.station
       ticklocs.append(distance)
       sta.append(tr.stats.station)

@@ -56,7 +56,7 @@ for wf_file in file_list:
     tr.detrend('linear')
     scnl,picks,polarity,snr,uncert=picker.picks(tr)
     t_create=datetime.utcnow() # Record the time we made the picks
-    # Add each picks to the database
+    # Add each pick to the database
     for i in range(len(picks)):
       new_pick=tables1D.Pick(scnl,picks[i].datetime,polarity[i],snr[i],uncert[i],t_create)
       session.add(new_pick) # Add pick i to the database
@@ -84,5 +84,5 @@ assocOK.single_phase()
 # Plot example event
 plt=plot1D.Plot(db_assoc,db_tt)
 plt.cluster_plot(assoc_ot_uncert=3)
-plt.event_plot(1)
+plt.event_plot(1,west = -104.5, east= -94, south = 33.5, north = 37.5, deltalon = 1.0, deltalat = 1.0)
 plt.section_plot(1,file_list)
