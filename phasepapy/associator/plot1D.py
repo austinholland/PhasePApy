@@ -1,6 +1,4 @@
-from obspy.core.stream import read, Stream
-from obspy.core.util import gps2DistAzimuth
-from obspy.core import UTCDateTime
+from obspy.core import *
 from mpl_toolkits.basemap import Basemap
 from matplotlib.collections import LineCollection
 from matplotlib.colors import colorConverter
@@ -8,8 +6,8 @@ import matplotlib.pyplot as plt
 from matplotlib.pyplot import *  
 from sqlalchemy.orm import *
 from sqlalchemy import create_engine  
-from tables1D import *
-from tt_stations_1D import *
+from .tables1D import *
+from .tt_stations_1D import *
 from datetime import *  
     
 def add_subplot_axes(ax,rect,axisbg='w'):
@@ -315,7 +313,7 @@ class Plot():
     elif channel=='Z' or channel=='z':
       Chan='Z3'
     else:
-      print 'Please input component E, e, N, n, Z, or z, the default is Z'
+      print('Please input component E, e, N, n, Z, or z, the default is Z')
 
     # Calculating distance from headers lat/lon
     ST_new = Stream()#;print ST

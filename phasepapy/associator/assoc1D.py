@@ -1,14 +1,15 @@
-from tables1D import *
-from tt_stations_1D import *
-from func1D import *
+from .tables1D import *
+from .tt_stations_1D import *
+from .func1D import *
 import numpy as np
 from sqlalchemy.orm import *  # session
 from sqlalchemy import create_engine
 from scipy.optimize import fmin
-from obspy.core.util import gps2DistAzimuth
+from obspy.geodetics import gps2dist_azimuth 
 from datetime import *
 from operator import itemgetter
 from itertools import combinations
+import logging
 #import time       "from datetime import *" will import time, name space will be overwritten
 
 
@@ -194,8 +195,8 @@ class LocalAssociator():
               self.assoc_db.commit()
               event_id=new_event.id
               
-              print 'event_id:', event_id  
-              print 'ot:', origintime, 'ot_uncert:', round(ot_unc,3), 'loc:', LAT,LON, 'loc_uncert:', round(RMS,3), 'nsta:', nsta
+              logging.info('event_id: '+ str(event_id))  
+              logging.info(str(['ot:', origintime, 'ot_uncert:', ot_unc, 'loc:', LAT,LON, 'loc_uncert:', RMS, 'nsta:', nsta]))
               
               # Associate candidates, picks with the identified event
               for candi in MATCHES_nol:
@@ -206,7 +207,7 @@ class LocalAssociator():
               # Associate candidates from outliers if the d_km intersect loc_uncert
               if MISMATCHES:
                 for i in range(len(MISMATCHES)): 
-                  d = gps2DistAzimuth(LAT,LON,MISMATCHES[i][2],MISMATCHES[i][1])[0]/1000
+                  d = gps2dist_azimuth(LAT,LON,MISMATCHES[i][2],MISMATCHES[i][1])[0]/1000
                   r = MISMATCHES[i][3]
                   uncert_km = RMS * np.pi / 180.0 * 6371
                   if abs(d - r) <= uncert_km:
@@ -243,7 +244,7 @@ class LocalAssociator():
 
         station = self.tt_stations_db_1D.query(Station1D).filter(Station1D.sta==sta).first()
         #print event.latitude,event.longitude,sta,station.latitude,station.longitude
-        d_km = gps2DistAzimuth(event.latitude,event.longitude,station.latitude,station.longitude)[0]/1000.
+        d_km = gps2dist_azimuth(event.latitude,event.longitude,station.latitude,station.longitude)[0]/1000.
     
         if (d_km < self.max_km) and (sta not in sta_assoc): # only associated single phase from stations not contribute p and s pairs
           tt,d_diff = tt_km(self.tt_stations_db_1D,d_km)
@@ -424,7 +425,7 @@ def locating(guess,*args):
   i=0
   while True:
     # gps2DistAzimuth(lat1, lon1, lat2, lon2) Returns:	(Great circle distance in m, azimuth A->B in degrees, azimuth B->A in degrees)
-    residuals=residuals+(gps2DistAzimuth(guess[1],guess[0],args[i][2],args[i][1])[0]/1000*180/(np.pi*6371)-args[i][4])**2
+    residuals=residuals+(gps2dist_azimuth(guess[1],guess[0],args[i][2],args[i][1])[0]/1000*180/(np.pi*6371)-args[i][4])**2
 #     np.sqrt((guess[0]-args[i][1])**2+(guess[1]-args[i][2])**2)-args[i][4])**2
     if i==L-1:
       break
@@ -439,7 +440,7 @@ def residuals_minimum(location,args):
   residuals=0
   i=0
   while True:
-    residuals=residuals+(gps2DistAzimuth(location[1],location[0],args[i][2],args[i][1])[0]/1000*180/(np.pi*6371)-args[i][4])**2
+    residuals=residuals+(gps2dist_azimuth(location[1],location[0],args[i][2],args[i][1])[0]/1000*180/(np.pi*6371)-args[i][4])**2
     if i==L-1:
       break
     else:
@@ -448,7 +449,7 @@ def residuals_minimum(location,args):
   
 # residual function, location is the median lon and lat, args format is (lon, lat, d_km, sta, delta)
 def residual(location,args):
-  x=gps2DistAzimuth(location[1],location[0],args[2],args[1])[0]/1000*180/(np.pi*6371)-args[4]
+  x=gps2dist_azimuth(location[1],location[0],args[2],args[1])[0]/1000*180/(np.pi*6371)-args[4]
   return x
 
 

@@ -7,22 +7,31 @@ The associator also uses sqlalchemy to store phase picks and associated events i
 This example uses sqlite which should be included in python. 
 
 """
+import sys
+sys.path.append("../")
 from phasepapy.phasepicker import fbpicker
 from phasepapy.associator import tables1D, assoc1D, plot1D
-from obspy.core import time
+from obspy.core import *
 from sqlalchemy.orm import *
 from sqlalchemy import create_engine
 from datetime import datetime
 import glob
 import os
+# Get logging information
+import logging
+rootlog=logging.getLogger()
+rootlog.setLevel(logging.INFO)
+ch=logging.StreamHandler(sys.stderr)
+rootlog.addHandler(ch)
+
 
 # If the associator database exists delete it first, start fresh for this example
 if os.path.exists('1dassociator_ok.db'):
   os.remove('1dassociator_ok.db')
 
 # Our SQLite databases are:
-db_assoc='sqlite://1dassociator_ok.db'
-tt_assoc='sqlite://data_20130616153750/tt_stations_1D.db'
+db_assoc='sqlite:///1dassociator_ok.db'
+db_tt='sqlite:///data_20130616153750/tt_stations_1D.db' # Traveltime database
 
 
 # Connect to our databases
@@ -42,14 +51,14 @@ picker = fbpicker.FBPicker(t_long = 5, freqmin = 1, mode = 'rms', t_ma = 20, nsi
 # Pick the waveforms     
 for wf_file in file_list:
   st=read(wf_file)
-  st.merge()
+  #st.merge()  # merge will cause issues if there is a data gap
   for tr in st:
     tr.detrend('linear')
     scnl,picks,polarity,snr,uncert=picker.picks(tr)
     t_create=datetime.utcnow() # Record the time we made the picks
     # Add each picks to the database
     for i in range(len(picks)):
-      new_pick=tables1d.Pick(scnl,picks[i].datetime,polarity[i],snr[i],uncert[i],t_create)
+      new_pick=tables1D.Pick(scnl,picks[i].datetime,polarity[i],snr[i],uncert[i],t_create)
       session.add(new_pick) # Add pick i to the database
     session.commit() # Commit the pick to the database
     
@@ -64,13 +73,13 @@ assocOK=assoc1D.LocalAssociator(db_assoc, db_tt,
   loc_uncert_thresh = 0.2)
   
 # Identify candidate events (Pick Aggregation)
-assoc_ok.id_candidate_events()
+assocOK.id_candidate_events()
 
 # Associate events
-assoc_ok.associate_candidates()
+assocOK.associate_candidates()
 
 # Add singles stations to events
-assoc_ok.single_phase()
+assocOK.single_phase()
 
 # Plot example event
 plt=plot1D.Plot(db_assoc,db_tt)
