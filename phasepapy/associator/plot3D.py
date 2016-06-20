@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 from matplotlib.pyplot import *
 from sqlalchemy.orm import *
 from sqlalchemy import create_engine
-from tables3D import *
-from tt_stations_3D import *
+from .tables3D import *
+from .tt_stations_3D import *
 from datetime import *
 
 def add_subplot_axes(ax,rect,axisbg='w'):
