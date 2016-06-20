@@ -288,13 +288,7 @@ class Plot():
           tr.trim(UTCDateTime(eve.ot-timedelta(seconds=seconds_ahead)), UTCDateTime(eve.ot+timedelta(seconds=record_length)))
           ST_new+=tr
     #print ST_new.__str__(extended=True)
- 
 
-#     remove the traces from same station, but different samples number (trace length)
-#     .X31A..B Z | 2011-01-18T01:40:30.325000Z - 2011-01-18T01:41:44.975000Z | 40.0 Hz, 2987 samples
-#     .WMOK..B Z | 2011-01-18T01:40:30.325000Z - 2011-01-18T01:41:44.975000Z | 40.0 Hz, 2987 samples
-#     .X31A..B Z | 2011-01-18T01:40:30.325000Z - 2011-01-18T01:42:10.325000Z | 40.0 Hz, 4001 samples
-#     .WMOK..B Z | 2011-01-18T01:40:30.325000Z - 2011-01-18T01:42:10.325000Z | 40.0 Hz, 4001 samples
 
     while True:
       ST_new_sta=[]
