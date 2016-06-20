@@ -101,6 +101,8 @@ class Plot():
   def event_plot(self, assoc_id, west = -104.5, east= -94, south = 33.5, north = 37.5, deltalon = 1.0, deltalat = 1.0):
     """ Plot all the circles, stations, location and residual distribution on one map by calling the event number after the event been associated.
     """
+    from itertools import cycle
+    plot_colors=cycle(['r','g','b','c','m','y'])
     
     fig=plt.figure(figsize=(15,8))
     ax = fig.add_subplot(111)
@@ -138,7 +140,7 @@ class Plot():
       lon,lat=self.tt_stations_db_3D.query(Station3D.longitude,Station3D.latitude).filter(Station3D.sta==match.sta).first()
       s_p_rainbow.append((match.ts-match.tp).total_seconds())
       radius_rainbow.append(match.d_km)
-      Color=ax._get_lines.color_cycle.next()
+      Color=plot_colors.__next__()
       rainbow.append(Color)
       sta_rainbow.append(match.sta)
       LocPair,=equi(m, lon, lat, match.d_km, lw=2., color=Color)
@@ -149,7 +151,7 @@ class Plot():
       lon,lat=self.tt_stations_db_3D.query(Station3D.longitude,Station3D.latitude).filter(Station3D.sta==mismatch.sta).first()
       s_p_rainbow.append((mismatch.ts-mismatch.tp).total_seconds())
       radius_rainbow.append(mismatch.d_km)
-      Color=ax._get_lines.color_cycle.next()
+      Color=plot_colors.__next__()
       rainbow.append(Color)
       sta_rainbow.append(mismatch.sta)
       UnlocPair,=equi(m, lon, lat, mismatch.d_km, ls='--', lw=1., color=Color)
