@@ -1,4 +1,4 @@
-from tt_stations_3D import *
+from .tt_stations_3D import *
 
 def tt_km(session,d_km):
   """ tt_km(session,d_km)

@@ -2,13 +2,14 @@ import numpy as np
 from sqlalchemy.orm import *  # session
 from sqlalchemy import create_engine
 
-from tables3D import *
-from tt_stations_3D import *
-from func3D import *
+from .tables3D import *
+from .tt_stations_3D import *
+from .func3D import *
 from search import *
 from datetime import *
 from operator import itemgetter
 from itertools import combinations
+import logging
 #import time       "from datetime import *" will import time, name space will be overwritten
 
 class LocalAssociator():
@@ -189,8 +190,8 @@ class LocalAssociator():
           self.assoc_db.refresh(new_event)
           self.assoc_db.commit()
           event_id=new_event.id
-          print 'event_id:',event_id 
-          print 'ot:', origintime, 'ot_uncert:', round(ot_unc,3), 'loc:', lat,lon, 'rms:', round(rms,3), 'nsta:', nsta
+          logging.info(str(['event_id:',event_id])) 
+          logging.info(str(['ot:', origintime, 'ot_uncert:', round(ot_unc,3), 'loc:', lat,lon, 'rms:', round(rms,3), 'nsta:', nsta]))
            
           for tt_tuple in cb[index]:
             match = tt_tuple[4]
