@@ -25,8 +25,8 @@ ch=logging.StreamHandler(sys.stderr)
 rootlog.addHandler(ch)
 
 # If the associator database exists delete it first, start fresh for this example
-if os.path.exists('1dassociator_ok.db'):
-  os.remove('1dassociator_ok.db')
+if os.path.exists('3dassociator_ok.db'):
+  os.remove('3dassociator_ok.db')
 
 # Our SQLite databases are:
 db_assoc='sqlite:///3dassociator_ok.db'
@@ -36,7 +36,7 @@ db_tt='sqlite:///data_20130616153750/tt_stations_3D.db' # Traveltime database
 # Connect to our databases
 engine_assoc=create_engine(db_assoc, echo=False)
 # Create the tables required to run the 1D associator
-tables1D.Base.metadata.create_all(engine_assoc)
+tables3D.Base.metadata.create_all(engine_assoc)
 Session=sessionmaker(bind=engine_assoc)
 session=Session()
 

@@ -98,7 +98,7 @@ class Plot():
     plt.show()    
     
   
-  def event_plot(self, assoc_id, West = -104.5, East= -94, South = 33.5, North = 37.5, deltalon = 1.0, deltalat = 1.0):
+  def event_plot(self, assoc_id, west = -104.5, east= -94, south = 33.5, north = 37.5, deltalon = 1.0, deltalat = 1.0):
     """ Plot all the circles, stations, location and residual distribution on one map by calling the event number after the event been associated.
     """
     
@@ -124,12 +124,8 @@ class Plot():
     #m.drawparallels(np.arange(South,North,deltalat),labels=[1,0,0,0],color='gray',dashes=[1,1e-5],labelstyle='+/-',linewidth=0.1)
     #m.drawmeridians(np.arange(West,East,deltalon),labels=[0,0,0,1],color='gray',dashes=[1,1e-5],labelstyle='+/-',linewidth=0.1)
     m.drawmapboundary(fill_color='blue') 
-    m.readshapefile('/Users/chenchen/Desktop/Research/gis/Geography/county','ok_counties',drawbounds=True,linewidth=1.0,color='black',zorder=2)
-
-    m.readshapefile('/Users/chenchen/Desktop/Research/gis/Geology/OF5-95/Faults/surface','surface',linewidth=1.25,color='gray',zorder=3)
-    m.readshapefile('/Users/chenchen/Desktop/Research/gis/Geology/OF5-95/Faults/surface_ot','surface_ot',linewidth=1.25,color='gray',zorder=3)
-    m.readshapefile('/Users/chenchen/Desktop/Research/gis/Geology/OF5-95/Faults/subsurface_ot','subsurface_ot',linewidth=1.25,color='gray',zorder=3)
-    m.readshapefile('/Users/chenchen/Desktop/Research/gis/Geology/OF5-95/Faults/subsurface','subsurface',linewidth=1.25,color='gray',zorder=3)
+    m.drawcountries()
+    m.drawstates()
     
     #=============================================================
     # plot matches and mismatches circles    
@@ -280,7 +276,7 @@ class Plot():
     elif channel=='Z' or channel=='z':
       Chan='Z3'
     else:
-      print 'Please input component E, e, N, n, Z, or z, the default is Z'
+      print('Please input component E, e, N, n, Z, or z, the default is Z')
     
     # Calculating distance from headers lat/lon
     ST_new = Stream()#;print ST

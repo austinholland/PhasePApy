@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from .tables3D import *
 from .tt_stations_3D import *
 from .func3D import *
-from search import *
+from .search import *
 from datetime import *
 from operator import itemgetter
 from itertools import combinations

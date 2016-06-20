@@ -1,4 +1,4 @@
-from tt_stations_3D import *
+from .tt_stations_3D import *
 
 def PyramidSearching(session_tt_3D, nt, np, nr, tt):
   
