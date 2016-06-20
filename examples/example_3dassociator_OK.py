@@ -69,5 +69,5 @@ chen3D.associate_candidates()
 # Plot
 plt = plot3D.Plot(db_assoc, db_tt)
 plt.cluster_plot(assoc_ot_uncert = 3)
-plt.event_plot(1)
-plt.section_plot(1, files)
+plt.event_plot(1,west = -104.5, east= -94, south = 33.5, north = 37.5, deltalon = 1.0, deltalat = 1.0)
+plt.section_plot(1, file_list)

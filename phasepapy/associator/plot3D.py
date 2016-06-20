@@ -117,7 +117,7 @@ class Plot():
     #
     #=============================================================
     ### Basemap Module
-    m = Basemap(projection='merc',llcrnrlat=South,urcrnrlat=North,llcrnrlon=West,urcrnrlon=East,lat_ts=0,resolution='c')
+    m = Basemap(projection='merc',llcrnrlat=south,urcrnrlat=north,llcrnrlon=west,urcrnrlon=east,lat_ts=0,resolution='c')
     m.drawcountries()
     m.fillcontinents(color='white',lake_color='aqua',zorder=1)
     #=============================================================
