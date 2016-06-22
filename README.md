@@ -45,7 +45,7 @@ tables to associate earthquakes. The associator was tested for local to regional
 
 ## License
 PhasePApy is released as public domain under the Creative Commons Public Domain Dedication [CC0 1.0] (https://creativecommons.org/publicdomain/zero/1.0/legalcode). 
-The software was developed at the [Oklahoma Geological Survey](www.ogs.ou.edu).
+The software was developed at the [Oklahoma Geological Survey](http://www.ogs.ou.edu).
 
 ## Examples 
 There are examples in the test directory if one has the required libraries the examples
