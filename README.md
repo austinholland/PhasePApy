@@ -1,4 +1,3 @@
-
 # PhasePApy 
 
 ## Reference 
@@ -12,7 +11,6 @@ Identification of Seismic Phases, XXX XXX XXX, XX(XX), XXX-XXX.
 The PhasePApy is a Pure Python program package developed by Chen Chen (c.chen@ou.edu; 
 c.chen8684@gmail.com) under the guidance of Austin Holland.
 
-Version 1.0: 2014	--	FBpicker; 1D Associator
 Version 1.1: 2016	--	FBpicker, AICDpicker, KTpicker; 1D and 3D Associator
 
 The PhasePApy is a Seismic Phase Picker and Associator program package, which is 
@@ -46,6 +44,7 @@ tables to associate earthquakes. The associator was tested for local to regional
  P- and S-phases, but the algorithm can be accommodated for any distance and possibly phase.
 
 ## License
+PhasePApy is released as public domain under the Creative Commons Public Domain Dedication [CC0 1.0] (https://creativecommons.org/publicdomain/zero/1.0/legalcode). 
 PhasePApy is public domain and is provided as is with no warranty expressed or implied.  
 The software was developed at the Oklahoma Geological Survey.
 
