@@ -10,22 +10,27 @@ import sys
 sys.path.append("../")
 from phasepapy.phasepicker import fbpicker
 from phasepapy.associator import tables1D, assoc1D, plot1D
-from phasepapy.associator.tt_stations_1D import TTtable1D, Station1D
+from phasepapy.associator import tt_stations_1D
 from sqlalchemy.orm import *
 from sqlalchemy import create_engine
 from obspy.core import *
+import obspy.geodetics as geodetics
 import obspy.clients.fdsn as fdsn
 import obspy.taup as taup
+import numpy as np
 import re
+import os
 
 
-def build_tt_tables(minlat=None,maxlat=None,minlon=None,maxlon=None,channel_codes=['EH','BH','HH'],db=None,maxdist=500.):
+def build_tt_tables(minlat=None,maxlat=None,minlon=None,maxlon=None,channel_codes=['EH','BH','HH'],db=None,maxdist=500.,source_depth=5.):
   """ channel_codes select channels that start with those codes  
   maximum distance is in km
+  source depth is generally set to the average earthquake depth for the region you are working
+  for more granularity use the 3D associator
   """
   # Create a connection to an sqlalchemy database
   tt_engine=create_engine(db,echo=False)
-  tt_stations_1D.BaseTT1D.metadata.create_all(tt_engine)
+  tt_stations_1D.Base.metadata.create_all(tt_engine)
   TTSession=sessionmaker(bind=tt_engine)
   tt_session=TTSession()
   # Create a cliet to IRIS FDSN
@@ -49,18 +54,35 @@ def build_tt_tables(minlat=None,maxlat=None,minlon=None,maxlon=None,channel_code
             if not ch.location_code in loccodes:
               loccodes.append(ch.location_code)
       for loc in loccodes:  
-        station=Station1D(sta.code,network,loc,sta.latitude,sta.longitude,sta.elevation)
+        station=tt_stations_1D.Station1D(sta.code,network,loc,sta.latitude,sta.longitude,sta.elevation)
         # Save the station locations in the database
         tt_session.add(station)
       tt_session.commit()
 
   # Now we have to build our traveltime lookup tables
+  # We will use IASP91 here but obspy.taup does let you build your own model
   velmod=taup.TauPyModel(model='iasp91')      
   # Define our distances we want to use in our lookup table
-  delta_d=1. # km for spacing tt calculations  
+  delta_distance=1. # km for spacing tt calculations  
   # Probably better to use a progressive type scheme instead of linear, but this is an example
-  d_km=np.arange(0,maxdist+delta_d,delta_d)
-  
+  distance_km=np.arange(0,maxdist+delta_distance,delta_distance)
+  for d_km in distance_km:
+    d_deg=geodetics.kilometer2degrees(d_km)
+    ptimes=[]
+    stimes=[]
+    p_arrivals=velmod.get_travel_times(source_depth_in_km=source_depth,
+      distance_in_degree=d_deg,phase_list=['P','p'])
+    for p in p_arrivals:
+      ptimes.append(p.time)
+    s_arrivals=velmod.get_travel_times(source_depth_in_km=source_depth,
+      distance_in_degree=d_deg,phase_list=['S','s'])
+    for s in s_arrivals:
+      stimes.append(s.time)
+    tt_entry=tt_stations_1D.TTtable1D(d_km,d_deg,np.min(ptimes),np.min(stimes),np.min(stimes)-np.min(ptimes))
+    tt_session.add(tt_entry)
+    tt_session.commit() # Probably faster to do the commit outside of loop but oh well
+  tt_session.close()
+  return True
       
   
 
