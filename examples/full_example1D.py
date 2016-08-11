@@ -194,5 +194,6 @@ if __name__=="__main__":
   plt=plot1D.Plot(db_assoc,db_tt)
   plt.cluster_plot(assoc_ot_uncert=3)
   plt.event_plot(1,west = -104.5, east= -94, south = 33.5, north = 37.5, deltalon = 1.0, deltalat = 1.0)
-  plt.section_plot(1,file_list,seconds_ahead = 5, record_length = 100, channel = 'Z')
+  #Section plot is not implemented if you store all your waveform files when downloaded then you could plot.
+  #plt.section_plot(1,file_list,seconds_ahead = 5, record_length = 100, channel = 'Z')
   
