@@ -1,4 +1,3 @@
-import math
 import numpy as np
 from .util import *
 from obspy.signal import bandpass
@@ -19,7 +18,7 @@ class Ratio():
     """
     df = self.tr.stats.sampling_rate
     Nyquist = df / 2.0
-    n_bands = int(math.log(Nyquist / 1.5 / self.freqmin, 2)) + 1
+    n_bands = int(np.log(Nyquist / 1.5 / self.freqmin, 2)) + 1
     return n_bands
 
   def filter(self):
