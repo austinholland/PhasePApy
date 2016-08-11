@@ -1,9 +1,9 @@
 from sqlalchemy import *
 from sqlalchemy.ext.declarative import declarative_base
 
-Base=declarative_base()
+BaseTT1D=declarative_base()
 
-class TTtable1D(Base):
+class TTtable1D(BaseTT1D):
   __tablename__='traveltimes'
   id=Column(Integer, primary_key=True)
   d_km=Column(Float)     # Distance in kilometers
@@ -32,7 +32,7 @@ class TTtable1D(Base):
     return "<TTtable (%.2f %.2f %.2f %.2f %.2f)>" % (self.d_km,self.delta,self.p_tt,self.s_tt,self.s_p)
 
 
-class Station1D(Base):
+class Station1D(BaseTT1D):
   __tablename__="stations"
   id=Column(Integer,primary_key=True)
   sta=Column(String(5))
