@@ -2,8 +2,8 @@
 
 ## Reference 
 
-Chen,C., and A. A. Holland, (201X). PhasePApy: A Robust Pure Python Package for Automatic 
-Identification of Seismic Phases, XXX XXX XXX, XX(XX), XXX-XXX.
+Chen,C., and A. A. Holland, (2016). PhasePApy: A Robust Pure Python Package for Automatic 
+Identification of Seismic Phases, Seismological Research Letters, 87(6), DOI: 10.1785/0220160019.
 
 			
 ## About
