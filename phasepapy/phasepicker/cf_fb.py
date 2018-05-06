@@ -1,7 +1,7 @@
 import numpy as np
 from .util import *
-from obspy.signal import bandpass
-from obspy.signal.invsim import cosTaper
+from obspy.signal.filter import bandpass
+from obspy.signal.invsim import cosine_taper
 
 class Ratio():
   
@@ -35,7 +35,7 @@ class Ratio():
       octave_high = (self.freqmin + self.freqmin * 2.0) / 2.0 * (2**j)
       octave_low = octave_high / 2.0
       BF[j] = bandpass(self.tr.data, octave_low, octave_high, df, corners = self.cnr, zerophase = False)
-      BF[j] = cosTaper(LEN, self.perc_taper) * BF[j]
+      BF[j] = cosine_taper(LEN, self.perc_taper) * BF[j]
 
     return BF
     
